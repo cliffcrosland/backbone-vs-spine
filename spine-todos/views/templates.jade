@@ -1,0 +1,16 @@
+#templates
+  script(id='todo_templ', type='text/template')
+    .view(title='Double click to edit...')
+      <input type='checkbox' {{#done}} checked {{/done}}>
+      span
+        {{message}}
+      a.destroy
+    .edit
+      input(type='text', value='')
+
+  script(id='counter_templ', type='text/template')
+    <a class="clear" style="display: {{display}};">Clear completed</a>
+    .count
+      span.countVal
+        {{count}}
+      |  left
