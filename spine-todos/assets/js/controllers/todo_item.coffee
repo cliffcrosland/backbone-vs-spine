@@ -6,10 +6,14 @@ class TodoItem extends Spine.Controller
 
   elements:
     'input[type=checkbox]' : 'checkbox'
+    'input[type=text]' : 'input'
 
   events:
     'change input[type=checkbox]' : 'toggle'
     'click a.destroy' : 'destroy'
+    'dblclick span' : 'edit'
+    'blur input[type=text]' : 'close'
+    'keypress input[type=text]' : 'blurOnEnter'
 
   constructor: ->
     super
@@ -37,7 +41,17 @@ class TodoItem extends Spine.Controller
     @todo.destroy()
 
   toggle: ->
-    @todo.done = !@todo.done
-    @todo.save()
+    @todo.updateAttributes done: !@todo.done
+
+  edit: ->
+    @el.addClass 'editing'
+    @input.focus()
+
+  close: ->
+    @todo.updateAttributes message: @input.val()
+    @el.removeClass 'editing'
+
+  blurOnEnter: (e) ->
+    if e.keyCode is 13 then e.target.blur()
 
 window.TodoItem = TodoItem
